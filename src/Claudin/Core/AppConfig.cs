@@ -30,6 +30,9 @@ public sealed partial class AppConfig
     /// <summary>Recortar os botões de minimizar, maximizar e fechar do Claude, deixando só os do Claudin.</summary>
     public bool HideClaudeCaptionButtons { get; set; } = true;
 
+    /// <summary>Moldura fina na cor da conta ativa em volta do Claude.</summary>
+    public bool ShowProfileFrame { get; set; } = true;
+
     /// <summary>Tirar o botão do Claude da barra de tarefas, ficando só o do Claudin.</summary>
     public bool HideClaudeTaskbarButtons { get; set; } = true;
 

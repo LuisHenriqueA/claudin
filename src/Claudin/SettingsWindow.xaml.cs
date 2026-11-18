@@ -35,6 +35,7 @@ public partial class SettingsWindow : Window
         CloseToTrayBox.IsChecked = config.CloseToTray;
         HideCaptionBox.IsChecked = config.HideClaudeCaptionButtons;
         HideTaskbarBox.IsChecked = config.HideClaudeTaskbarButtons;
+        ProfileFrameBox.IsChecked = config.ShowProfileFrame;
         UpdateRestoreButton();
 
         SourceInitialized += (_, _) =>
@@ -96,6 +97,7 @@ public partial class SettingsWindow : Window
         _config.CloseToTray = CloseToTrayBox.IsChecked == true;
         _config.HideClaudeCaptionButtons = HideCaptionBox.IsChecked == true;
         _config.HideClaudeTaskbarButtons = HideTaskbarBox.IsChecked == true;
+        _config.ShowProfileFrame = ProfileFrameBox.IsChecked == true;
 
         var wantStartup = StartWithWindowsBox.IsChecked == true;
         if (Environment.ProcessPath is { } exe && wantStartup != SafeIsEnabled(exe))

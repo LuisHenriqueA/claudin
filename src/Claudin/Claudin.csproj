@@ -12,7 +12,7 @@
     <RootNamespace>Claudin</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\Claudin.ico</ApplicationIcon>
-    <Version>0.9.1</Version>
+    <Version>1.0.0</Version>
     <Product>Claudin</Product>
     <Description>Alterna entre duas contas do Claude Desktop numa única janela.</Description>
     <!-- WFO0003 vale para apps WinForms; aqui o app é WPF e o DPI por monitor fica no manifesto (necessário para a Fase 3). -->

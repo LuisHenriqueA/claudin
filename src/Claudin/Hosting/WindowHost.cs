@@ -486,9 +486,12 @@ public sealed class WindowHost : IDisposable
         {
             return null;
         }
-        // Em Per-Monitor V2, PointToScreen devolve pixels físicos.
-        var topLeft = _hostArea.PointToScreen(new Point(0, 0));
-        var bottomRight = _hostArea.PointToScreen(new Point(_hostArea.ActualWidth, _hostArea.ActualHeight));
+        // Em Per-Monitor V2, PointToScreen devolve pixels físicos. A moldura na cor da conta (borda da área host) fica
+        // de fora: o Claude ocupa só o miolo.
+        var frame = (_hostArea as System.Windows.Controls.Border)?.BorderThickness ?? default;
+        var topLeft = _hostArea.PointToScreen(new Point(frame.Left, frame.Top));
+        var bottomRight = _hostArea.PointToScreen(new Point(Math.Max(frame.Left, _hostArea.ActualWidth - frame.Right),
+            Math.Max(frame.Top, _hostArea.ActualHeight - frame.Bottom)));
         return PixelRect.FromLtrb((int)Math.Round(topLeft.X), (int)Math.Round(topLeft.Y),
             (int)Math.Round(bottomRight.X), (int)Math.Round(bottomRight.Y));
     }

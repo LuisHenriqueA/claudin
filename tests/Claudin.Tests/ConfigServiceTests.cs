@@ -116,6 +116,7 @@ public sealed class ConfigServiceTests : IDisposable
         // Configurações antigas, sem o campo, passam a esconder os botões do Claude.
         Assert.True(result.Config.HideClaudeCaptionButtons);
         Assert.True(result.Config.HideClaudeTaskbarButtons);
+        Assert.True(result.Config.ShowProfileFrame);
     }
 
     [Fact]

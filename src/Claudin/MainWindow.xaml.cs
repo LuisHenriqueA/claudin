@@ -34,6 +34,7 @@ public partial class MainWindow : Window
     private readonly Dictionary<ProfileInstance, bool> _wasAlive = [];
     private WindowHost? _host;
     private DateTime _lastSwitch;
+    private const double ProfileFrameThickness = 2;
     private Brush _claudeBackground = Frozen(Color.FromRgb(0x19, 0x19, 0x19)); // cabeçalho do Claude no tema escuro
     private ProfileHotkeys? _hotkeys;
     private HwndSource? _source;
@@ -833,6 +834,15 @@ public partial class MainWindow : Window
             && ((_host?.IsShowing(inst) ?? false) || DateTime.UtcNow - _lastSwitch < TimeSpan.FromSeconds(2));
         StatusPanel.Visibility = claudeExpected ? Visibility.Hidden : Visibility.Visible;
         HostArea.Background = claudeExpected ? _claudeBackground : (Brush)FindResource("HostBrush");
+
+        // Moldura na cor da conta ativa: mostra em qual conta você está antes de colar ou enviar algo.
+        HostArea.BorderBrush = ActiveProfile.ColorBrush;
+        var frame = new Thickness(_state.Config.ShowProfileFrame ? ProfileFrameThickness : 0);
+        if (HostArea.BorderThickness != frame)
+        {
+            HostArea.BorderThickness = frame;
+            _host?.RequestSync(); // o Claude ocupa só o miolo da moldura
+        }
 
         var (icon, iconBrush, title, detail) = inst.State switch
         {

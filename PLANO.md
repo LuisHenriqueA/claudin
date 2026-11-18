@@ -197,6 +197,14 @@ Concluída (2026-11-11):
   - Fica um aviso no log com o que estava no lugar (a classe da janela, nunca o título), se o Claude estava visível ou minimizado, e se estava oculto pelo DWM.
   - A causa exata no computador do usuário não foi reproduzida: a ativação pela barra de tarefas não pode ser simulada daqui. Foi verificado forçando o Claude para baixo do Claudin no perfil de teste: o Claudin detectou e corrigiu.
 
+## Versão 1.0.0
+
+- **Moldura na cor da conta:** borda de 2 DIP na cor da conta ativa em volta do Claude, que ocupa só o miolo. Liga e desliga nas Configurações, e vem ligada. Verificado no perfil de teste: a borda fica na cor do perfil e o Claude fica 3 px para dentro (1 px de borda do Claudin + 2 px de moldura).
+- **Avisos por conta: descartado por ora.**
+  - O plano era captar o "pedido de atenção" (`FlashWindowEx`) do Claude pelo shell hook (`RegisterShellHookWindow`, `HSHELL_FLASH` 0x8006) e mostrar um selo na aba da conta.
+  - Teste com uma conta de teste: a janela normal gerou `HSHELL_FLASH`. A mesma janela marcada como de ferramenta (sem botão na barra, como o Claudin deixa) ou oculta (como a conta inativa) **não gerou nada**.
+  - Com "Mostrar só o Claudin na barra de tarefas" ligado, não há sinal para captar. As notificações do Windows continuam, mas as duas contas usam o mesmo AUMID, então não dá para saber de qual conta veio cada uma.
+
 ---
 
 ## Checklist de testes manuais (rodar no fim das fases 2 a 5)
