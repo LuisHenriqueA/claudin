@@ -4,3 +4,6 @@ obj/
 .vs/
 TestResults/
 artifacts/
+
+# Notas internas de investigação (ficam só na máquina)
+docs/ACHADOS.md
