@@ -17,9 +17,11 @@ Use duas contas do **Claude Desktop** no Windows, lado a lado, numa única janel
 
 ## Instalação
 
-O instalador será publicado na página de **Releases** deste repositório. Ele instala só para o seu usuário, sem precisar de administrador.
+1. Baixe o `Claudin-Setup-<versão>.exe` da última versão em **Releases**.
+2. Abra o instalador. Ele instala só para o seu usuário, sem precisar de administrador.
+3. Se o Windows SmartScreen mostrar "O Windows protegeu o computador", é porque o instalador ainda não tem assinatura digital. Clique em **Mais informações → Executar assim mesmo**. Se quiser, antes confira o arquivo pelo `SHA256SUMS.txt` da release (veja o [SECURITY.md](SECURITY.md)).
 
-Enquanto não há release, veja [Compilar a partir do código](#compilar-a-partir-do-código).
+Também dá para [compilar a partir do código](#compilar-a-partir-do-código).
 
 ## Primeira configuração
 
@@ -109,6 +111,12 @@ $env:CLAUDIN_HOME = 'C:\Claudin\teste\home'; .\src\Claudin\bin\Debug\net10.0-win
 | `tools` | Scripts de publicação, do instalador, do ícone e de investigação. |
 | `PLANO.md` | Plano do projeto, por fases, e o histórico das versões. |
 
+## Contribuir e segurança
+
+- Contribuições entram por **Pull Request** e só são incorporadas depois de revisadas pelo mantenedor.
+- Para relatar uma falha de segurança, siga o [SECURITY.md](SECURITY.md). Não abra uma issue pública.
+- Cada release traz o `SHA256SUMS.txt`, para você conferir o instalador baixado.
+
 ## Licença
 
-A definir.
+[MIT](LICENSE). O software é fornecido "como está", sem garantias.
