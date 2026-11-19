@@ -117,6 +117,8 @@ public sealed class ConfigServiceTests : IDisposable
         Assert.True(result.Config.HideClaudeCaptionButtons);
         Assert.True(result.Config.HideClaudeTaskbarButtons);
         Assert.True(result.Config.ShowProfileFrame);
+        // Ao sair, o Claude vai para a bandeja dele (1.1).
+        Assert.True(result.Config.SendClaudeToTrayOnExit);
     }
 
     [Fact]

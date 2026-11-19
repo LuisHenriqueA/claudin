@@ -303,7 +303,9 @@ public partial class MainWindow : Window
         }
         _source?.RemoveHook(WndProc);
         _hotkeys?.Dispose();
-        _host?.Dispose(); // janelas escondidas pelo Claudin voltam a aparecer; o Claude continua aberto
+        // O Claude continua aberto. Com a opção (padrão), todas as janelas vão para a bandeja do Claude; sem ela, as
+        // escondidas pelo Claudin voltam a aparecer.
+        _host?.Dispose(sendClaudeToTray: _state.Config.SendClaudeToTrayOnExit);
     }
 
     private void SafeRefresh()

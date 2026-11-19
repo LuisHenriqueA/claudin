@@ -27,6 +27,12 @@ public sealed partial class AppConfig
     /// <summary>O X do Claudin esconde na bandeja em vez de sair.</summary>
     public bool CloseToTray { get; set; }
 
+    /// <summary>
+    /// Ao sair do Claudin, mandar o Claude de cada conta para a bandeja dele (o mesmo que o X do Claude), em vez de deixar
+    /// as janelas na tela. O processo continua aberto e logado.
+    /// </summary>
+    public bool SendClaudeToTrayOnExit { get; set; } = true;
+
     /// <summary>Recortar os botões de minimizar, maximizar e fechar do Claude, deixando só os do Claudin.</summary>
     public bool HideClaudeCaptionButtons { get; set; } = true;
 

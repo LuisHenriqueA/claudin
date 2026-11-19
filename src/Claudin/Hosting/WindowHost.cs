@@ -351,7 +351,13 @@ public sealed class WindowHost : IDisposable
         return NativeMethods.GetClassNameW(hwnd, name, name.Capacity) > 0 ? name.ToString() : "?";
     }
 
-    public void Dispose()
+    public void Dispose() => Dispose(sendClaudeToTray: false);
+
+    /// <summary>
+    /// Solta as janelas. Com <paramref name="sendClaudeToTray"/>, em vez de reexibir as que o Claudin escondia, manda
+    /// todas para a bandeja do Claude (WM_CLOSE, igual ao X do próprio Claude: o processo continua aberto e logado).
+    /// </summary>
+    public void Dispose(bool sendClaudeToTray)
     {
         if (_disposed)
         {
@@ -367,7 +373,19 @@ public sealed class WindowHost : IDisposable
         _foregroundHook.Dispose();
         foreach (var mw in _managed.Values.ToList())
         {
-            Unmanage(mw, restore: true);
+            Unmanage(mw, restore: !sendClaudeToTray);
+            if (sendClaudeToTray && NativeMethods.IsWindow(mw.Hwnd))
+            {
+                // PostMessage não espera o Claude: se ele estiver travado, o Claudin sai do mesmo jeito.
+                if (NativeMethods.PostMessageW(mw.Hwnd, NativeMethods.WM_CLOSE, IntPtr.Zero, IntPtr.Zero))
+                {
+                    Log.Info($"Perfil '{mw.Instance.Profile.Id}': Claude enviado para a bandeja ao sair");
+                }
+                else
+                {
+                    Log.Warn($"Perfil '{mw.Instance.Profile.Id}': falha ao enviar o Claude para a bandeja (erro {System.Runtime.InteropServices.Marshal.GetLastWin32Error()})");
+                }
+            }
         }
         _cover.Dispose();
     }

@@ -212,6 +212,12 @@ Concluída (2026-11-11):
   - **Sem horário de renovação:** o `resets_at` fica só na memória do Claude. O painel mostra há quanto tempo foi a leitura, marca como desatualizada a partir de 45 min, e a sessão como "renovada" quando a leitura tem mais de 5 h.
   - Formato interno e sem documentação: se mudar, o painel diz que não conseguiu ler, e o Claudin continua funcionando.
   - **Verificado** numa configuração de teste (`C:\Claudin\teste\consumo`) com cópias dos históricos reais das duas contas e uma leitura antiga fictícia. **Não verificado:** o painel por cima de uma janela do Claude hospedada. Ele é um popup e fica no topo, então deve aparecer.
+- **Ao sair do Claudin, o Claude vai para a bandeja** (pedido do usuário). Antes, as janelas que o Claudin escondia voltavam a aparecer.
+  - Agora o Claudin manda `WM_CLOSE` (`PostMessage`, sem esperar) a cada janela hospedada. É o mesmo que o X do Claude: a janela some e o processo continua aberto e logado (Fase 0, seção 5).
+  - Encerrar os processos foi a outra opção. O usuário preferiu a bandeja, porque nada se perde e reabrir é imediato.
+  - Opção `sendClaudeToTrayOnExit`, ligada por padrão, nas Configurações. Desligada, o comportamento antigo volta. A bandeja do Claudin diz o que o "Sair" faz.
+  - **Verificado** com uma conta de teste: depois de fechar o Claudin, o processo continuou vivo e a janela ficou oculta. Ao reabrir o Claudin, ele pegou a mesma janela e a mostrou.
+  - **Efeito colateral:** com a opção ligada, cada Claude fica com o ícone dele na bandeja do Windows.
 
 ---
 

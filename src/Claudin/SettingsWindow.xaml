@@ -139,6 +139,7 @@
                 <CheckBox x:Name="StartWithWindowsBox" Content="Iniciar com o Windows (em segundo plano, na bandeja)" />
                 <CheckBox x:Name="OpenActiveBox" Content="Abrir o perfil ativo quando o Claudin iniciar" />
                 <CheckBox x:Name="CloseToTrayBox" Content="O X da janela mantém o Claudin na bandeja, em vez de sair" />
+                <CheckBox x:Name="SendClaudeToTrayBox" Content="Ao sair do Claudin, mandar o Claude das contas para a bandeja (continua aberto e logado)" />
                 <CheckBox x:Name="HideCaptionBox" Content="Esconder os botões de minimizar, maximizar e fechar do Claude (ficam só os do Claudin)" />
                 <CheckBox x:Name="ProfileFrameBox" Content="Moldura na cor da conta ativa em volta do Claude" />
                 <CheckBox x:Name="HideTaskbarBox" Content="Mostrar só o Claudin na barra de tarefas (sem o botão do Claude)" />

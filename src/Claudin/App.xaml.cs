@@ -94,7 +94,7 @@ public partial class App : Application
 
         try
         {
-            _tray = new TrayIcon(_instances.Instances, () => _window.ActiveInstance);
+            _tray = new TrayIcon(_instances.Instances, () => _window.ActiveInstance, () => state.Config.SendClaudeToTrayOnExit);
             _tray.ShowRequested += () => _window.BringToFront();
             _tray.ProfileRequested += inst =>
             {
@@ -124,7 +124,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        // As instâncias do Claude continuam abertas: só os handles do Claudin são liberados.
+        // As instâncias do Claude continuam abertas (na tela ou na bandeja delas): só os handles do Claudin são liberados.
         _tray?.Dispose();
         _instances?.Dispose();
         _single?.Dispose();
@@ -133,7 +133,7 @@ public partial class App : Application
         base.OnExit(e);
     }
 
-    /// <summary>Sai do Claudin. As instâncias do Claude continuam abertas.</summary>
+    /// <summary>Sai do Claudin. As instâncias do Claude continuam abertas (com a opção padrão, na bandeja do Claude).</summary>
     private void ExitApp()
     {
         if (_exiting)

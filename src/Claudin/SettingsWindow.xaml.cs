@@ -33,6 +33,7 @@ public partial class SettingsWindow : Window
         StartWithWindowsBox.IsChecked = exe is not null && SafeIsEnabled(exe);
         OpenActiveBox.IsChecked = config.OpenActiveProfileOnStart;
         CloseToTrayBox.IsChecked = config.CloseToTray;
+        SendClaudeToTrayBox.IsChecked = config.SendClaudeToTrayOnExit;
         HideCaptionBox.IsChecked = config.HideClaudeCaptionButtons;
         HideTaskbarBox.IsChecked = config.HideClaudeTaskbarButtons;
         ProfileFrameBox.IsChecked = config.ShowProfileFrame;
@@ -95,6 +96,7 @@ public partial class SettingsWindow : Window
         _config.ClaudeExecutableOverride = overridePath;
         _config.OpenActiveProfileOnStart = OpenActiveBox.IsChecked == true;
         _config.CloseToTray = CloseToTrayBox.IsChecked == true;
+        _config.SendClaudeToTrayOnExit = SendClaudeToTrayBox.IsChecked == true;
         _config.HideClaudeCaptionButtons = HideCaptionBox.IsChecked == true;
         _config.HideClaudeTaskbarButtons = HideTaskbarBox.IsChecked == true;
         _config.ShowProfileFrame = ProfileFrameBox.IsChecked == true;

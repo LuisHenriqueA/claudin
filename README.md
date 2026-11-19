@@ -53,7 +53,7 @@ Depois disso, as duas contas ficam logadas de vez, também depois de reiniciar.
 
 - **Trocar de conta:** clique na aba, ou use **Ctrl+Alt+1**, **Ctrl+Alt+2**…
 - **Consumo das contas** (botão de gráfico na barra): mostra, lado a lado, quanto cada conta já usou da **sessão (5 h)** e da **semana** (e dos limites por modelo, quando o plano tem). Os números vêm do histórico que o próprio Claude grava na pasta de cada conta, a cada poucos minutos enquanto ela está aberta, por isso aparece há quanto tempo foi a leitura. O horário de renovação de cada janela não fica gravado: para ele, use **Configurações → Uso** no Claude. Passar o mouse numa aba também mostra o resumo do consumo.
-- **Bandeja:** o ícone do Claudin na bandeja mostra as contas e permite sair. "Sair" deixa as contas do Claude abertas; "Sair e fechar as contas do Claude…" fecha tudo.
+- **Bandeja:** o ícone do Claudin na bandeja mostra as contas e permite sair. "Sair" manda o Claude das contas para a bandeja dele: as janelas somem da tela, mas o Claude continua aberto e logado, e o Claudin o traz de volta na hora quando abrir de novo. "Sair e fechar as contas do Claude…" encerra tudo.
 - **Levar uma conversa para a outra conta** (botão à esquerda da chave):
   - **Levar conversa do chat:** o Claudin copia um pedido de resumo. Cole na conversa, envie, e clique em **Copiar** na resposta. O Claudin abre um chat novo na outra conta, já com o contexto (nada é enviado sozinho).
   - **Levar sessão do Code:** o mesmo, para sessões da aba Code. A sessão nova abre na **mesma pasta do projeto**.
@@ -71,6 +71,7 @@ Na **engrenagem** do Claudin:
 | Iniciar com o Windows | Abre o Claudin em segundo plano, na bandeja. É a única alteração no registro, e o valor original é salvo antes (há um botão para restaurar). |
 | Abrir o perfil ativo quando o Claudin iniciar | Já abre a última conta usada. |
 | O X da janela mantém o Claudin na bandeja | Fechar esconde, em vez de sair. |
+| Ao sair do Claudin, mandar o Claude das contas para a bandeja | Vem ligada. Ao sair, o Claude de cada conta vai para a bandeja dele, como no X do próprio Claude: continua aberto e logado, mas fora da tela. Desligada, as janelas do Claude voltam a aparecer quando o Claudin sai. |
 | Esconder os botões de minimizar, maximizar e fechar do Claude | Ficam só os botões do Claudin. |
 | Moldura na cor da conta ativa | Borda fina na cor da conta em volta do Claude. |
 | Mostrar só o Claudin na barra de tarefas | Tira o botão do Claude da barra e do Alt+Tab. Com isso, o contador e o piscar do Claude na barra deixam de aparecer (as notificações do Windows continuam). |

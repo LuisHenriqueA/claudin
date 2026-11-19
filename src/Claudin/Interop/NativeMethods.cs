@@ -237,6 +237,12 @@ internal static class NativeMethods
     [DllImport("user32.dll", ExactSpelling = true)]
     public static extern bool ShowWindowAsync(IntPtr hwnd, int cmd);
 
+    public const uint WM_CLOSE = 0x0010;
+
+    /// <summary>Não espera a janela de destino processar a mensagem.</summary>
+    [DllImport("user32.dll", SetLastError = true, ExactSpelling = true)]
+    public static extern bool PostMessageW(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
+
     [DllImport("user32.dll", SetLastError = true, ExactSpelling = true)]
     public static extern bool SetWindowPos(IntPtr hwnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
 

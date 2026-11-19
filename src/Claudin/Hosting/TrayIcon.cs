@@ -10,11 +10,13 @@ internal sealed class TrayIcon : IDisposable
     private readonly Forms.ContextMenuStrip _menu;
     private readonly IReadOnlyList<ProfileInstance> _profiles;
     private readonly Func<ProfileInstance?> _active;
+    private readonly Func<bool> _sendClaudeToTrayOnExit;
 
-    public TrayIcon(IReadOnlyList<ProfileInstance> profiles, Func<ProfileInstance?> active)
+    public TrayIcon(IReadOnlyList<ProfileInstance> profiles, Func<ProfileInstance?> active, Func<bool> sendClaudeToTrayOnExit)
     {
         _profiles = profiles;
         _active = active;
+        _sendClaudeToTrayOnExit = sendClaudeToTrayOnExit;
         _menu = new Forms.ContextMenuStrip();
         _menu.Opening += (_, _) => BuildMenu();
         _icon = new Forms.NotifyIcon
@@ -72,7 +74,9 @@ internal sealed class TrayIcon : IDisposable
         }
 
         _menu.Items.Add(new Forms.ToolStripSeparator());
-        var exit = new Forms.ToolStripMenuItem("Sair (as contas do Claude continuam abertas)");
+        var exit = new Forms.ToolStripMenuItem(_sendClaudeToTrayOnExit()
+            ? "Sair (o Claude das contas vai para a bandeja, aberto)"
+            : "Sair (as contas do Claude continuam abertas)");
         exit.Click += (_, _) => ExitRequested?.Invoke();
         _menu.Items.Add(exit);
         var exitAll = new Forms.ToolStripMenuItem("Sair e fechar as contas do Claude…");
