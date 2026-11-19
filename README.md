@@ -52,6 +52,7 @@ Depois disso, as duas contas ficam logadas de vez, também depois de reiniciar.
 ## Uso no dia a dia
 
 - **Trocar de conta:** clique na aba, ou use **Ctrl+Alt+1**, **Ctrl+Alt+2**…
+- **Consumo das contas** (botão de gráfico na barra): mostra, lado a lado, quanto cada conta já usou da **sessão (5 h)** e da **semana** (e dos limites por modelo, quando o plano tem). Os números vêm do histórico que o próprio Claude grava na pasta de cada conta, a cada poucos minutos enquanto ela está aberta, por isso aparece há quanto tempo foi a leitura. O horário de renovação de cada janela não fica gravado: para ele, use **Configurações → Uso** no Claude. Passar o mouse numa aba também mostra o resumo do consumo.
 - **Bandeja:** o ícone do Claudin na bandeja mostra as contas e permite sair. "Sair" deixa as contas do Claude abertas; "Sair e fechar as contas do Claude…" fecha tudo.
 - **Levar uma conversa para a outra conta** (botão à esquerda da chave):
   - **Levar conversa do chat:** o Claudin copia um pedido de resumo. Cole na conversa, envie, e clique em **Copiar** na resposta. O Claudin abre um chat novo na outra conta, já com o contexto (nada é enviado sozinho).

@@ -205,6 +205,14 @@ Concluída (2026-11-11):
   - Teste com uma conta de teste: a janela normal gerou `HSHELL_FLASH`. A mesma janela marcada como de ferramenta (sem botão na barra, como o Claudin deixa) ou oculta (como a conta inativa) **não gerou nada**.
   - Com "Mostrar só o Claudin na barra de tarefas" ligado, não há sinal para captar. As notificações do Windows continuam, mas as duas contas usam o mesmo AUMID, então não dá para saber de qual conta veio cada uma.
 
+## Versão 1.1.0
+
+- **Consumo das contas:** botão de gráfico na barra abre um painel com o uso da sessão (5 h) e da semana de cada conta, lado a lado. Também mostra os limites semanais por modelo (Sonnet, Opus), o do Cowork e o uso extra, quando o arquivo traz esses valores. A dica das abas ganhou o resumo do consumo.
+  - **Fonte:** o próprio Claude Desktop grava `plan-usage-history.json` na pasta de dados de cada conta. Visto no `app.asar` 6.6395 (só leitura): `{version: 2, samples: [{t, org, u: {fh, sd, sn, so, cw, xu…}}]}`, 30 dias de amostras, no máximo uma a cada 4,5 min, só com a conta aberta. Só tem percentuais e o id da organização, que o Claudin ignora. Não tem token nem cookie, então a regra 2 vale.
+  - **Sem horário de renovação:** o `resets_at` fica só na memória do Claude. O painel mostra há quanto tempo foi a leitura, marca como desatualizada a partir de 45 min, e a sessão como "renovada" quando a leitura tem mais de 5 h.
+  - Formato interno e sem documentação: se mudar, o painel diz que não conseguiu ler, e o Claudin continua funcionando.
+  - **Verificado** numa configuração de teste (`C:\Claudin\teste\consumo`) com cópias dos históricos reais das duas contas e uma leitura antiga fictícia. **Não verificado:** o painel por cima de uma janela do Claude hospedada. Ele é um popup e fica no topo, então deve aparecer.
+
 ---
 
 ## Checklist de testes manuais (rodar no fim das fases 2 a 5)

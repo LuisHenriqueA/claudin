@@ -29,6 +29,9 @@
             <Border Grid.Row="0" Background="{StaticResource BarBrush}">
                 <DockPanel LastChildFill="True">
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <Button x:Name="UsageButton" Style="{StaticResource CaptionButtonStyle}" FontSize="13"
+                                Content="&#xE9D2;" Click="OnUsageButtonClick" AutomationProperties.Name="Consumo das contas"
+                                ToolTip="Consumo das contas: uso da sessão (5 h) e da semana em cada conta, lado a lado." />
                         <Button x:Name="TransferButton" Style="{StaticResource CaptionButtonStyle}" FontSize="13"
                                 Content="&#xE72D;" Click="OnTransferButtonClick" AutomationProperties.Name="Levar conversa para outra conta"
                                 ToolTip="Levar a conversa aberta para outra conta (abre um chat novo lá, já com o contexto)." />
@@ -96,6 +99,92 @@
                     </StackPanel>
                 </DockPanel>
             </Border>
+
+            <!-- Painel de consumo (1.1): o uso que o próprio Claude grava na pasta de cada conta. Popup = fica por cima
+                 da janela do Claude hospedada. -->
+            <Popup x:Name="UsagePopup" Grid.Row="0" PlacementTarget="{Binding ElementName=UsageButton}" Placement="Bottom"
+                   HorizontalOffset="-314" StaysOpen="False" AllowsTransparency="True" PopupAnimation="Fade"
+                   Opened="OnUsagePopupOpened" Closed="OnUsagePopupClosed">
+                <Border Width="360" Margin="0,2,8,8" Padding="16,14" CornerRadius="8"
+                        Background="{StaticResource CardBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                        TextElement.Foreground="{StaticResource TextBrush}">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="16" ShadowDepth="3" Opacity="0.45" />
+                    </Border.Effect>
+                    <Border.Resources>
+                        <Style x:Key="UsageBarStyle" TargetType="ProgressBar">
+                            <Setter Property="Height" Value="6" />
+                            <Setter Property="Minimum" Value="0" />
+                            <Setter Property="Maximum" Value="100" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ProgressBar">
+                                        <Grid>
+                                            <Border x:Name="PART_Track" CornerRadius="3" Background="#3F3F3F" />
+                                            <Border x:Name="PART_Indicator" CornerRadius="3" HorizontalAlignment="Left"
+                                                    Background="{TemplateBinding Foreground}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Border.Resources>
+                    <StackPanel>
+                        <DockPanel Margin="0,0,0,4">
+                            <Button DockPanel.Dock="Right" Style="{StaticResource CaptionButtonStyle}" Width="28" Height="24"
+                                    FontSize="12" Content="&#xE72C;" Click="OnUsageRefreshClick"
+                                    ToolTip="Ler de novo" AutomationProperties.Name="Ler o consumo de novo" />
+                            <TextBlock Text="Consumo das contas" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center" />
+                        </DockPanel>
+
+                        <ItemsControl x:Name="UsageList" Focusable="False">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:ProfileButtonViewModel}">
+                                    <StackPanel Margin="0,10,0,4">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Ellipse Width="9" Height="9" Margin="0,0,8,0" VerticalAlignment="Center"
+                                                     Fill="{Binding ColorBrush}" />
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                        <ItemsControl ItemsSource="{Binding UsageRows}" Focusable="False" Margin="17,6,0,0">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type local:UsageRowViewModel}">
+                                                    <Grid Margin="0,3" Background="Transparent" ToolTip="{Binding ToolTip}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="128" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="62" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Label}" FontSize="12.5" VerticalAlignment="Center"
+                                                                   Foreground="{StaticResource MutedBrush}" />
+                                                        <ProgressBar Grid.Column="1" Style="{StaticResource UsageBarStyle}"
+                                                                     Value="{Binding Percent, Mode=OneWay}" Foreground="{Binding BarBrush}"
+                                                                     VerticalAlignment="Center" />
+                                                        <TextBlock Grid.Column="2" Text="{Binding ValueText}" FontSize="12.5"
+                                                                   FontWeight="SemiBold" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                                   Foreground="{Binding ValueBrush, TargetNullValue={StaticResource TextBrush}}" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock x:Name="UsageStatus" Text="{Binding UsageStatusText}" Margin="17,4,0,0"
+                                                   TextWrapping="Wrap" FontSize="11.5" Foreground="{StaticResource MutedBrush}" />
+                                    </StackPanel>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding UsageIsStale}" Value="True">
+                                            <Setter TargetName="UsageStatus" Property="Foreground" Value="{StaticResource WarnBrush}" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Rectangle Height="1" Margin="0,12,0,10" Fill="{StaticResource BorderBrush}" />
+                        <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="{StaticResource MutedBrush}"
+                                   Text="Lido do histórico que o próprio Claude grava em cada conta. O horário em que cada janela renova não fica gravado: veja em Configurações → Uso, no Claude." />
+                    </StackPanel>
+                </Border>
+            </Popup>
 
             <!-- Faixa do assistente de login (Fase 4). Quando aparece, a área host encolhe e o Claude acompanha. -->
             <Border x:Name="LoginStrip" Grid.Row="1" Visibility="Collapsed" Background="#2B2A22"

@@ -26,6 +26,8 @@ public partial class MainWindow : Window
     private readonly InstanceManager _instances;
     private readonly ObservableCollection<ProfileButtonViewModel> _profiles = [];
     private readonly DispatcherTimer _refreshTimer;
+    private readonly DispatcherTimer _usageTimer;
+    private DateTime _usagePopupClosedAt;
     private readonly LoginAssistant _login = new(() => DateTime.UtcNow);
     private readonly ConversationTransfer _transfer = new(() => DateTime.UtcNow);
     private uint _ownClipboardSequence;
@@ -62,6 +64,11 @@ public partial class MainWindow : Window
             inst.PropertyChanged += OnInstanceChanged;
         }
         ProfileList.ItemsSource = _profiles;
+        UsageList.ItemsSource = _profiles;
+        RefreshUsage();
+        // Para a dica das abas; com o painel aberto, a leitura é mais frequente (OnUsagePopupOpened).
+        _usageTimer = new DispatcherTimer(TimeSpan.FromMinutes(1), DispatcherPriority.Background, (_, _) => RefreshUsage(), Dispatcher);
+        _usageTimer.Start();
 
         _refreshTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Background, (_, _) =>
         {
@@ -288,6 +295,7 @@ public partial class MainWindow : Window
     private void OnClosed(object? sender, EventArgs e)
     {
         _refreshTimer.Stop();
+        _usageTimer.Stop();
         if (_clipboardListening)
         {
             NativeMethods.RemoveClipboardFormatListener(_hwnd);
@@ -368,6 +376,48 @@ public partial class MainWindow : Window
         }
         return IntPtr.Zero;
     }
+
+    // ---------- Consumo das contas (1.1) ----------
+
+    private void RefreshUsage()
+    {
+        var now = DateTimeOffset.Now;
+        foreach (var p in _profiles)
+        {
+            try
+            {
+                p.RefreshUsage(now);
+            }
+            catch (Exception ex)
+            {
+                Log.Warn($"Consumo: falha ao ler o histórico do perfil {p.Profile.Id}: {ex.GetType().Name}");
+            }
+        }
+    }
+
+    private void OnUsageButtonClick(object sender, RoutedEventArgs e)
+    {
+        // O clique no próprio botão já fechou o painel (StaysOpen=False): não reabrir na mesma hora.
+        if (DateTime.UtcNow - _usagePopupClosedAt < TimeSpan.FromMilliseconds(300))
+        {
+            return;
+        }
+        UsagePopup.IsOpen = !UsagePopup.IsOpen;
+    }
+
+    private void OnUsagePopupOpened(object? sender, EventArgs e)
+    {
+        RefreshUsage();
+        _usageTimer.Interval = TimeSpan.FromSeconds(15);
+    }
+
+    private void OnUsagePopupClosed(object? sender, EventArgs e)
+    {
+        _usagePopupClosedAt = DateTime.UtcNow;
+        _usageTimer.Interval = TimeSpan.FromMinutes(1);
+    }
+
+    private void OnUsageRefreshClick(object sender, RoutedEventArgs e) => RefreshUsage();
 
     // ---------- Levar conversa para outra conta (Fase 7) ----------
 
